@@ -19,6 +19,9 @@ exports['Controllers.Man.Route'] = function (spirit) {
 		},
 		userAction : function (args) {
 			this.exit('(Man.Route) user: ' + args[0]);
+		},
+		compareAction : function (args) {
+			this.exit('Compare "' + args[0] + '" and "' + args[1] + '"');
 		}
 	});
 };

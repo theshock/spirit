@@ -1,4 +1,4 @@
-var libPath = __dirname + '/../lib';
+var libPath = __dirname + '/../../lib';
 
 require(libPath + '/MooTools').apply(GLOBAL);
 
@@ -20,6 +20,9 @@ spirit.createRouter()
 		},
 		{ route   : "</hash-:H>"
 		, contr   : 'Man.Route:hash'
+		},
+		{ route   : "</compare/(:P)/(:P)>"
+		, contr   : 'Man.Route:compare'
 		}
 	);
 
