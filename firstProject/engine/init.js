@@ -28,33 +28,17 @@ spirit.createRouter()
 
 spirit.listen("127.0.0.1:8124");
 
+
+
 var db = spirit.factory('Query.Database');
-var q  = db
-	.query()
-	.select('*');
-
-[
-	['table.field'],
-	['table.field', null],
-	['table.field', '!', null],
-	['('],
-	['table.field', 142],
-	['table.field', 'string'],
-	['or'],
-	['table.field', '>=', 18],
-	['('],
-	['table.field', '%.%', 'tester'],
-	['table.field', 'like', 'tester'],
-	['table.field', 'not', '%.%', 'tester'],
-	[')'],
-	['table.field', 'not', 'like', 'tes"ter'],
-	['and'],
-	['table.field', [1,2,3]],
-	['table.field', 'not', [1,2,3]],
-	['table.field', /(.*)/],
-	['table.field', 'not', /(.*)/]
-].each(function (c) {
-	q.where(c);
-});
-
+var q  = db.query()
+	.save('tbl')
+	.updateIf('id')
+	.set({
+		id      : 15,
+		name    : 'tester',
+		email   : 'tester@example.com',
+		website : 'http://example.com',
+		jabber  : 'tester@jabber.example'
+	})
 console.log(q.getQuery());

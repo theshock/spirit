@@ -68,3 +68,53 @@ whereExamples
 	.where(field, 'not', /.*/) // field not regexp /*/
 	.where(field, oper, value) // field oper value
 	;
+
+// FULL SELECT:
+
+var db = spirit.factory('Query.Database');
+var q  = db
+	.query()
+	.group('grtst')
+	.join({ type: 'left',
+		table : 'Posts', as : 'Post',
+		on    : ['Topic.firstPostId', 'FirstPost.id']
+	})
+	.join({ type: 'right',
+		table : 'User', as : 'FirstAuthor',
+		on    : ['FirstPost.authorId', 'FirstAuthor.id']
+	})
+	.join({
+		table : 'Posts', as : 'Post',
+		using : 'user_id'
+	})
+	.leftJoin({
+		table : 'User', as : 'LastAuthor',
+		equals : ['LastPost.authorId', 'LastAuthor.id']
+	})
+	.select('*', 'table.field', { expr: 'COUNT(*)' })
+	.from( 'mainTable' );
+
+[
+	['table.field', { field : 'another.ff' }],
+	['table.field', '%.%', 'tester'],
+	['table.field', [1,2,3]],
+].each(function (c) {
+	q.where(c);
+});
+
+q.order('comment.order', q.DESC).limit({ page : 4, offset : 5 });
+
+console.log(q.getQuery());
+
+
+var q  = db.query()
+	.save('tbl')
+	.updateIf('id')
+	.set({
+		id      : 15,
+		name    : 'tester',
+		email   : 'tester@example.com',
+		website : 'http://example.com',
+		jabber  : 'tester@jabber.example'
+	})
+console.log(q.getQuery());
