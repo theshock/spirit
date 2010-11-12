@@ -1,6 +1,5 @@
 
 exports['Router.Regexp'] = function (spirit) {
-	
 	return new Class({
 		Extends : spirit.load('Router.Regexp', true),
 		prepareRegexp : function (route) {
