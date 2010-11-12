@@ -30,15 +30,18 @@ spirit.listen("127.0.0.1:8124");
 
 
 
-var db = spirit.factory('Query.Database');
-var q  = db.query()
-	.save('tbl')
-	.updateIf('id')
-	.set({
-		id      : 15,
-		name    : 'tester',
-		email   : 'tester@example.com',
-		website : 'http://example.com',
-		jabber  : 'tester@jabber.example'
-	})
-console.log(q.getQuery());
+spirit.db = spirit.factory(
+	'Orm.Database', {
+		username : 'Shock',
+		password : '',
+		database : 'nodejs'
+	});
+
+spirit.db
+	.model('comment')
+	.includes('author')
+	.findAll(function (comments) {
+		comments.each(function (comm) {
+			console.log(comm.get('id') + '»' + comm.get('author').get('name'));
+		});
+	});
