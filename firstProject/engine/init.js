@@ -26,9 +26,7 @@ spirit.createRouter()
 		}
 	);
 
-spirit.listen("127.0.0.1:8124");
-
-
+// spirit.listen("127.0.0.1:8124");
 
 spirit.db = spirit.factory(
 	'Orm.Database', {
@@ -38,10 +36,21 @@ spirit.db = spirit.factory(
 	});
 
 spirit.db
-	.model('comment')
-	.includes('author')
-	.findAll(function (comments) {
-		comments.each(function (comm) {
-			console.log(comm.get('id') + '»' + comm.get('author').get('name'));
+	.model('Category')
+	.includes('lastTopic')
+	.includes('lastTopic.lastComment')
+	.includes('lastTopic.lastComment.author')
+	.includes('lastTopic.firstComment')
+	.includes('lastTopic.firstComment.author')
+	.find(function (err, categories) {
+		categories.each(function (cat) {
+			console.log([
+				cat.title,
+				cat.topic.title,
+				cat.topic.lastComment.id,
+				cat.topic.lastComment.author.name,
+				cat.topic.firstComment.id,
+				cat.topic.firstComment.author.name
+			]);
 		});
 	});
